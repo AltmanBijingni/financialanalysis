@@ -1,0 +1,608 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f5f3ed">
+  <meta name="description" content="An interactive retail promotion break-even estimator with return-rate adjustments.">
+  <title>Promotion Break-Even Estimator — Retail Trading Brief</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --paper: #f5f3ed;
+      --surface: #fffefa;
+      --ink: #1d2924;
+      --muted: #64716b;
+      --line: #dce1d8;
+      --green: #164c3b;
+      --green-soft: #e6efe8;
+      --red: #bd563e;
+      --amber: #f2e7d2;
+      --blue: #6386a1;
+      --shadow: 0 16px 42px rgb(34 49 40 / 7%);
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.55;
+    }
+
+    a { color: inherit; }
+
+    .wrap {
+      width: min(1120px, calc(100% - 44px));
+      margin: 0 auto;
+    }
+
+    .masthead {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      min-height: 72px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      color: var(--green);
+      font-size: 13px;
+      font-weight: 780;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+    }
+
+    .brand-mark {
+      display: grid;
+      width: 31px;
+      height: 31px;
+      place-items: center;
+      border-radius: 50%;
+      background: var(--green);
+      color: white;
+      font-size: 17px;
+    }
+
+    .mast-meta {
+      color: var(--muted);
+      font-size: 12px;
+      text-align: right;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 230px;
+      align-items: end;
+      gap: 42px;
+      padding: 68px 0 40px;
+    }
+
+    .eyebrow {
+      margin: 0 0 15px;
+      color: var(--red);
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+    }
+
+    h1, h2, h3, p { margin-top: 0; }
+
+    h1 {
+      max-width: 700px;
+      margin-bottom: 17px;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(42px, 7vw, 75px);
+      font-weight: 500;
+      letter-spacing: -.055em;
+      line-height: .99;
+    }
+
+    h1 em {
+      color: var(--green);
+      font-weight: 500;
+    }
+
+    .hero-copy {
+      max-width: 660px;
+      margin-bottom: 0;
+      color: var(--muted);
+      font-size: 16px;
+    }
+
+    .hero-stamp {
+      padding: 19px 18px;
+      border: 1px solid #d5dccf;
+      border-radius: 6px;
+      background: rgb(255 254 250 / 65%);
+    }
+
+    .hero-stamp strong, .hero-stamp span { display: block; }
+
+    .hero-stamp strong {
+      margin-bottom: 4px;
+      color: var(--green);
+      font-size: 12px;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    .hero-stamp span {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .topnav {
+      display: flex;
+      gap: 25px;
+      padding: 0 0 26px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .topnav a {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    .topnav a:hover { color: var(--green); }
+
+    main { padding-bottom: 76px; }
+
+    .section {
+      padding-top: 56px;
+      scroll-margin-top: 25px;
+    }
+
+    .section-head {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 24px;
+      margin-bottom: 21px;
+    }
+
+    .section-number {
+      display: inline-block;
+      margin-bottom: 7px;
+      color: var(--red);
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: .12em;
+    }
+
+    h2 {
+      margin-bottom: 5px;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(28px, 4vw, 39px);
+      font-weight: 500;
+      letter-spacing: -.035em;
+      line-height: 1.08;
+    }
+
+    .section-subtitle {
+      max-width: 650px;
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .panel {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--surface);
+      box-shadow: var(--shadow);
+    }
+
+    .brief-intro {
+      margin-top: 28px;
+      padding: 22px 24px;
+    }
+
+    .brief-intro h2 {
+      margin-bottom: 8px;
+      font-size: 26px;
+    }
+
+    .brief-intro > p {
+      max-width: 860px;
+      margin-bottom: 16px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .notice {
+      margin: 15px 0 0;
+      padding: 12px 14px;
+      border-left: 3px solid #d29d58;
+      background: #f8f2e7;
+      color: #665942;
+      font-size: 12px;
+    }
+
+    .notice strong { color: #493c27; }
+
+    .calculator {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(280px, .75fr);
+      gap: 15px;
+    }
+
+    .controls { padding: 23px 24px; }
+
+    .control {
+      display: grid;
+      grid-template-columns: minmax(130px, 1fr) minmax(100px, 1.2fr) 57px;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 17px;
+    }
+
+    .control:last-of-type { margin-bottom: 5px; }
+
+    .control label {
+      font-size: 12px;
+      font-weight: 720;
+    }
+
+    .control small {
+      display: block;
+      margin-top: 2px;
+      color: var(--muted);
+      font-size: 10px;
+      font-weight: 450;
+    }
+
+    input[type="range"] {
+      width: 100%;
+      accent-color: var(--green);
+      cursor: pointer;
+    }
+
+    .control output {
+      color: var(--green);
+      font-size: 13px;
+      font-weight: 780;
+      font-variant-numeric: tabular-nums;
+      text-align: right;
+    }
+
+    .calc-result {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 100%;
+      padding: 25px;
+      background: var(--green);
+      color: #f8f8ef;
+    }
+
+    .calc-result .section-number { color: #c6d6c9; }
+
+    .result-label {
+      display: block;
+      margin: 3px 0 5px;
+      color: #d3e2d7;
+      font-size: 11px;
+      font-weight: 750;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    .result-value {
+      display: block;
+      margin-bottom: 9px;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(39px, 5vw, 57px);
+      letter-spacing: -.05em;
+      line-height: 1;
+    }
+
+    .result-explainer {
+      margin-bottom: 23px;
+      color: #d3e2d7;
+      font-size: 12px;
+    }
+
+    .result-divider {
+      height: 1px;
+      margin: 19px 0;
+      background: rgb(255 255 255 / 22%);
+    }
+
+    .comparison {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .comparison span { color: #d3e2d7; font-size: 11px; }
+
+    .comparison strong {
+      font-size: 18px;
+      font-variant-numeric: tabular-nums;
+      text-align: right;
+    }
+
+    .status-pill {
+      display: inline-block;
+      margin-top: 13px;
+      padding: 6px 9px;
+      border: 1px solid rgb(255 255 255 / 40%);
+      border-radius: 99px;
+      font-size: 10px;
+      font-weight: 750;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+    }
+
+    .status-pill.good { background: #e0eee2; color: #164c3b; }
+    .status-pill.bad { background: #f6e1d8; color: #813824; }
+    .status-pill.neutral { background: #e9e9d8; color: #4a4b31; }
+
+    .assumption-note {
+      margin: 15px 0 0;
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    .method-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 13px;
+    }
+
+    .method-card { padding: 19px 20px; }
+
+    .method-card h3 {
+      margin-bottom: 7px;
+      color: var(--green);
+      font-size: 13px;
+    }
+
+    .method-card p {
+      margin-bottom: 0;
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    .assumptions-panel { margin-top: 15px; padding: 19px 20px; }
+
+    .assumptions-panel h3 {
+      margin-bottom: 3px;
+      color: var(--green);
+      font-size: 13px;
+    }
+
+    .assumptions-panel > p {
+      margin-bottom: 11px;
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    .footer {
+      padding: 22px 0 28px;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    .footer strong { color: var(--ink); }
+
+    @media (max-width: 760px) {
+      .hero { grid-template-columns: 1fr; gap: 22px; padding-top: 48px; }
+      .hero-stamp { width: fit-content; }
+      .section-head { align-items: start; flex-direction: column; gap: 7px; }
+      .calculator { grid-template-columns: 1fr; }
+      .calc-result { min-height: 300px; }
+      .method-grid { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 480px) {
+      .wrap { width: min(100% - 30px, 1120px); }
+      .masthead { min-height: 61px; }
+      .mast-meta { max-width: 128px; }
+      .topnav { gap: 17px; }
+      .topnav a { font-size: 11px; }
+      .control { grid-template-columns: 1fr 54px; gap: 5px 12px; }
+      .control input { grid-column: 1; grid-row: 2; }
+      .control output { grid-column: 2; grid-row: 1 / span 2; }
+      .controls { padding: 19px 17px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="masthead">
+      <a class="brand" href="#" aria-label="Retail Promotion Check home">
+        <span class="brand-mark" aria-hidden="true">✳</span>
+        <span>Retail Promotion Check</span>
+      </a>
+      <div class="mast-meta">Interactive break-even estimator<br>Adjust assumptions to test a discount</div>
+    </header>
+
+    <section class="hero" aria-labelledby="page-title">
+      <div>
+        <p class="eyebrow">A practical retail trading tool</p>
+        <h1 id="page-title">Test the discount.<br><em>Protect the margin.</em></h1>
+        <p class="hero-copy">See how much extra volume a promotion needs to earn the same gross profit as full-price sales, adjusted for customer returns.</p>
+      </div>
+      <aside class="hero-stamp">
+        <strong>Break-even, not a sales forecast</strong>
+        <span>Editable inputs · return-adjusted results</span>
+      </aside>
+    </section>
+
+    <nav class="topnav" aria-label="Page sections">
+      <a href="#promotion">01 / Break-even estimator</a>
+      <a href="#method">How it works &amp; assumptions</a>
+    </nav>
+
+    <section class="panel brief-intro" aria-labelledby="brief-intro-title">
+      <h2 id="brief-intro-title">What this estimator tells you</h2>
+      <p>Enter a product’s original gross margin, discount and return rates. The estimator shows the extra order volume needed for the promotion to match the gross profit from full-price sales, and whether your chosen uplift would clear that hurdle.</p>
+    </section>
+
+    <main>
+      <section class="section" id="promotion" aria-labelledby="promotion-title">
+        <div class="section-head">
+          <div>
+          <span class="section-number">01 — PROMOTION BREAK-EVEN</span>
+            <h2 id="promotion-title">Does the discount pay?</h2>
+            <p class="section-subtitle">A promotion should only run if the extra sales make up for the smaller profit on every discounted item. This calculator shows the sales increase you need and adjusts for customer returns.</p>
+          </div>
+        </div>
+
+        <div class="calculator">
+          <div class="panel controls">
+            <div class="control">
+              <label for="margin">Original gross margin<small>As a share of full price</small></label>
+              <input id="margin" type="range" min="5" max="80" step="1" value="40">
+              <output id="margin-value" for="margin">40%</output>
+            </div>
+            <div class="control">
+              <label for="discount">Discount depth<small>Off the original price</small></label>
+              <input id="discount" type="range" min="0" max="60" step="1" value="20">
+              <output id="discount-value" for="discount">20%</output>
+            </div>
+            <div class="control">
+              <label for="base-returns">Full-price return rate<small>Share of orders returned</small></label>
+              <input id="base-returns" type="range" min="0" max="70" step="1" value="10">
+              <output id="base-returns-value" for="base-returns">10%</output>
+            </div>
+            <div class="control">
+              <label for="promo-returns">Promotional return rate<small>Share of discounted orders returned</small></label>
+              <input id="promo-returns" type="range" min="0" max="70" step="1" value="15">
+              <output id="promo-returns-value" for="promo-returns">15%</output>
+            </div>
+            <div class="control">
+              <label for="uplift">Illustrative volume uplift<small>Editable scenario, not an industry benchmark</small></label>
+              <input id="uplift" type="range" min="0" max="200" step="1" value="100">
+              <output id="uplift-value" for="uplift">100%</output>
+            </div>
+            <p class="assumption-note">This comparison assumes returned stock is recovered at original cost. It excludes return handling, markdowns on returned goods, shipping, and other variable costs; add those to your own margin assumptions.</p>
+          </div>
+
+          <aside class="panel calc-result" aria-live="polite" aria-atomic="true">
+            <div>
+              <span class="section-number">YOUR SCENARIO</span>
+              <span class="result-label">Required extra orders to break even</span>
+              <strong class="result-value" id="required-uplift">—</strong>
+              <p class="result-explainer" id="formula-explainer">Calculating scenario…</p>
+            </div>
+            <div>
+              <div class="result-divider"></div>
+              <div class="comparison">
+                <span>Gross profit vs. full-price baseline at your uplift</span>
+                <strong id="profit-delta">—</strong>
+              </div>
+              <span class="status-pill neutral" id="deal-status">Enter a valid margin</span>
+            </div>
+          </aside>
+        </div>
+        <p class="notice"><strong>In plain English.</strong> If an item costs £60 and sells for £100, a 20% discount cuts profit per kept item from £40 to £20. With equal return rates, you would need to sell twice as many to earn the same gross profit. Higher promotional return rates increase that hurdle.</p>
+      </section>
+
+      <section class="section" id="method" aria-labelledby="method-title">
+        <div class="section-head">
+          <div>
+            <span class="section-number">02 — HOW TO USE IT</span>
+            <h2 id="method-title">How to read the result</h2>
+            <p class="section-subtitle">The estimator compares expected gross profit per order, then tells you how much extra volume is needed to reach parity.</p>
+          </div>
+        </div>
+        <div class="method-grid">
+          <article class="panel method-card">
+            <h3>1. The break-even hurdle</h3>
+            <p>It compares profit per full-price order after returns with profit per promotional order after returns. The required uplift is the extra order volume that makes those totals equal.</p>
+          </article>
+          <article class="panel method-card">
+            <h3>2. Your scenario</h3>
+            <p>Adjust the volume-uplift slider to compare your expected increase with the break-even hurdle. The result shows whether gross profit is above, below or at parity with full-price sales.</p>
+          </article>
+          <article class="panel method-card">
+            <h3>3. Important assumptions</h3>
+            <p>Returned items are assumed recoverable at original cost. Shipping, handling, payment fees, markdowns on returned stock, overhead and capacity constraints are excluded; include them in your own analysis.</p>
+          </article>
+        </div>
+        <div class="panel assumptions-panel">
+          <h3>Example</h3>
+          <p>With a 40% original margin and a 20% discount, the required uplift is +100% if return rates are equal and other costs are ignored. If promotional returns are higher, the required uplift rises. Use the controls above for your own values.</p>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <strong>Retail Promotion Check.</strong> A simplified gross-profit break-even estimator for planning, not a substitute for a retailer’s full cost and margin analysis.
+    </footer>
+  </div>
+
+  <script>
+    function updateCalculator() {
+      const margin = Number(document.getElementById("margin").value) / 100;
+      const discount = Number(document.getElementById("discount").value) / 100;
+      const baseReturns = Number(document.getElementById("base-returns").value) / 100;
+      const promoReturns = Number(document.getElementById("promo-returns").value) / 100;
+      const assumedUplift = Number(document.getElementById("uplift").value) / 100;
+
+      for (const id of ["margin", "discount", "base-returns", "promo-returns", "uplift"]) {
+        document.getElementById(`${id}-value`).textContent = `${document.getElementById(id).value}%`;
+      }
+
+      const result = document.getElementById("required-uplift");
+      const explanation = document.getElementById("formula-explainer");
+      const delta = document.getElementById("profit-delta");
+      const status = document.getElementById("deal-status");
+      const baselineProfitPerOrder = margin * (1 - baseReturns);
+      const promoProfitPerOrder = (margin - discount) * (1 - promoReturns);
+
+      if (discount >= margin || promoProfitPerOrder <= 0) {
+        result.textContent = "Not viable";
+        explanation.textContent = "The discount uses up the product's profit. Even with more sales, this offer cannot earn the same total profit as normal-price sales.";
+        delta.textContent = "—";
+        status.className = "status-pill bad";
+        status.textContent = "Discount at or above margin";
+        return;
+      }
+
+      const requiredUplift = (baselineProfitPerOrder / promoProfitPerOrder) - 1;
+      const realizedProfitChange =
+        (((1 + assumedUplift) * promoProfitPerOrder) / baselineProfitPerOrder) - 1;
+      result.textContent = requiredUplift <= 0 ? "0% needed" : `+${(requiredUplift * 100).toFixed(1)}%`;
+      explanation.textContent = requiredUplift <= 0
+        ? "The discounted order has at least as much expected gross profit as the full-price order; no extra volume is needed for parity."
+        : `You need ${((1 + requiredUplift) * 100).toFixed(1)}% of baseline order volume to match baseline gross profit.`;
+      delta.textContent = `${realizedProfitChange > 0 ? "+" : ""}${(realizedProfitChange * 100).toFixed(1)}%`;
+      if (Math.abs(realizedProfitChange) < 0.005) {
+        status.className = "status-pill neutral";
+        status.textContent = "At break-even";
+      } else if (realizedProfitChange > 0) {
+        status.className = "status-pill good";
+        status.textContent = "Above gross-profit parity";
+      } else {
+        status.className = "status-pill bad";
+        status.textContent = "Below gross-profit parity";
+      }
+    }
+
+    for (const id of ["margin", "discount", "base-returns", "promo-returns", "uplift"]) {
+      document.getElementById(id).addEventListener("input", updateCalculator);
+    }
+    updateCalculator();
+  </script>
+</body>
+</html>
