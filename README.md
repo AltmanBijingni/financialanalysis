@@ -1,31 +1,36 @@
-# Retail Promotion Check
+# ALTMAN BIJINGNI | Finance Analytics
 
-A static, interactive estimator for checking whether a retail discount can earn the same gross profit as full-price sales. It adjusts the break-even volume uplift for separate full-price and promotional return rates. It does not forecast retail demand or any named company's results.
+A personal finance analytics portfolio and blog for sharing clear, practical work with small fund managers, wealth managers, and consumer or retail finance teams. The site is built with Jekyll and GitHub Pages; it is for publishing a portfolio and blog, not for payments or selling.
 
-## Use locally
+## Write a post
 
-No package installation or build step is required. Serve the `site` directory so the browser can load the page:
+1. Copy `_drafts/post-template.md`.
+2. Save it in `_posts/` as `YYYY-MM-DD-title.md`, using a date that is today or earlier.
+3. Replace the TODO placeholders, add sources, and preview the post.
+4. Commit and push the changes to `main`.
+
+Posts in `_posts/` are listed newest first on the blog page. Files in `_drafts/` are not published by default.
+
+## Preview locally (optional)
+
+The local Gemfile uses GitHub Pages 231 to support the Ruby 2.6 runtime available on this Mac. Install Bundler 2.4.22 and use a user-writable gem directory:
 
 ```bash
-python3 -m http.server 8000 --directory site
+gem install bundler -v 2.4.22 --user-install
+export GEM_HOME="$HOME/.gem/ruby/2.6.0"
+export GEM_PATH="$GEM_HOME:/Library/Ruby/Gems/2.6.0:/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/gems/2.6.0"
+bundle _2.4.22_ install
+bundle _2.4.22_ exec jekyll serve --baseurl ""
 ```
 
-Open `http://localhost:8000`.
+Open the local URL printed by Jekyll, usually `http://127.0.0.1:4000/`.
 
-## Calculation
+## Deploy with GitHub Pages
 
-The estimator calculates expected gross profit per ordered unit:
+Push the site files to the `main` branch. In the repository, open **Settings → Pages → Build and deployment**, choose **Deploy from a branch**, select **main** and **/(root)**, then save.
 
-- Full-price baseline: `margin × (1 − full-price return rate)`
-- Promotional order: `(margin − discount) × (1 − promotional return rate)`
-- Required uplift: `(baseline profit ÷ promotional profit) − 1`
+This repository is currently named `financialanalysis`, so its project site uses `/financialanalysis` as the base URL. If the repository is renamed to `AltmanBijingni.github.io` for a profile site at the domain root, remove `baseurl` from `_config.yml`.
 
-If the discount is equal to or above the original gross margin, the offer is marked not viable. The separate volume-uplift control compares an editable scenario with the required break-even level.
+## Break-even calculator
 
-## Assumptions
-
-Returned stock is assumed recoverable at original cost. Shipping, handling, payment fees, markdowns on returned stock, overhead and capacity constraints are excluded. Results are a simplified planning check; use your own fully loaded costs and margin data before making decisions.
-
-## Publish with GitHub Pages
-
-The workflow in `.github/workflows/deploy-pages.yml` deploys the contents of `site/` when changes are pushed to `main`. Set **Settings → Pages → Build and deployment → Source** to **GitHub Actions**.
+The existing calculator is preserved at `tools/breakeven/index.html` without edits. It is a standalone static page and has no Jekyll front matter.

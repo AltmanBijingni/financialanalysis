@@ -1,0 +1,9 @@
+title: "ALTMAN BIJINGNI | Finance Analytics"
+description: "Clear, practical finance analytics for investment, wealth, consumer and retail finance teams."
+theme: minima
+url: "https://altmanbijingni.github.io"
+baseurl: "/financialanalysis"
+header_pages:
+  - blog.md
+  - projects.md
+  - about.md
