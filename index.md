@@ -13,7 +13,7 @@ layout: home
     </div>
     <aside class="market-snapshot" aria-label="Illustrative promotion example">
       <div class="snapshot-heading">
-        <p class="aside-kicker">Promotion snapshot</p>
+        <p class="aside-kicker">Example figures</p>
         <span class="example-badge">Illustrative</span>
       </div>
       <p class="snapshot-caption">A simple worked example</p>
@@ -47,7 +47,7 @@ layout: home
         <strong class="bar-value">£40</strong>
       </div>
       <div class="bar-row">
-        <div class="bar-label"><span>Promotion scenario</span><small data-order-count>2 orders</small></div>
+        <div class="bar-label"><span>Discounted sales</span><small data-order-count>2 orders</small></div>
         <div class="bar-track"><span class="scenario-bar" data-scenario-bar></span></div>
         <strong class="bar-value" data-scenario-profit>£40</strong>
       </div>
