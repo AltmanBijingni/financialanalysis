@@ -1,4 +1,4 @@
-# ALTMAN BIJINGNI | Finance Analytics
+# Axiom Intelligence
 
 A personal finance analytics portfolio and blog for sharing clear, practical work with small fund managers, wealth managers, and consumer or retail finance teams. The site is built with Jekyll and GitHub Pages; it is for publishing a portfolio and blog, not for payments or selling.
 
