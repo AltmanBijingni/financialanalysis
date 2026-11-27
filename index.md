@@ -7,7 +7,7 @@ layout: home
     <div class="hero-copy">
       <p class="eyebrow"><span class="status-light" aria-hidden="true"></span>Finance analytics · Portfolio</p>
       <h1 id="portfolio-title">Read the numbers.<br><span>Find the decision.</span></h1>
-      <p class="hero-lede">I’m ALTMAN BIJINGNI, with an MSc in International Finance, and I work with Python, SQL, Power BI and Excel.</p>
+      <p class="hero-lede">Finance Analytics Portfolio by ALTMAN BIJINGNI, a bilingual (English and French) financial analyst with an MSc in International Finance and BA Hons Law and Politics, who combines knowledge of geopolitics and international finance with technical skills in financial modelling, DCF valuation, forecasting and risk analysis to help organisations generate returns and minimise risk and losses by analysing data with tools such as Excel, SQL, Python, Power BI and AI, to provide intelligence that accurately reflects future outcomes.</p>
       <p class="hero-summary">This portfolio shares clear, practical finance analytics for small fund managers, wealth managers, and consumer or retail finance teams.</p>
       <p class="hero-contact">Contact <a href="mailto:amungwa33@gmail.com">amungwa33@gmail.com</a></p>
     </div>
