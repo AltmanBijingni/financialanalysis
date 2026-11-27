@@ -10,4 +10,6 @@ permalink: /projects/
 
 **What it shows:** How gross margin, discount depth, and return rates affect the gross-profit break-even hurdle.
 
+[Open the break-even calculator]({{ '/tools/breakeven/' | relative_url }})
+
 [View the project repository on GitHub](https://github.com/AltmanBijingni/financialanalysis)
