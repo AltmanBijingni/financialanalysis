@@ -16,4 +16,4 @@ Python, SQL, Power BI, Excel, and financial modelling.
 
 ## Contact
 
-**TODO: Add your professional email address or preferred contact link.**
+[Email me at amungwa33@gmail.com](mailto:amungwa33@gmail.com).

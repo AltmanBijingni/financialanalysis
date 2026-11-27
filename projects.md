@@ -10,4 +10,4 @@ permalink: /projects/
 
 **What it shows:** How gross margin, discount depth, and return rates affect the gross-profit break-even hurdle.
 
-[TODO: Replace with the GitHub repository URL](https://github.com/AltmanBijingni/TODO-repository)
+[View the project repository on GitHub](https://github.com/AltmanBijingni/financialanalysis)
